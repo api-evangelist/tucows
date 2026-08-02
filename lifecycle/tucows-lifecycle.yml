@@ -1,0 +1,24 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide
+api: OpenSRS Domains and TLS/SSL API
+versioning:
+  scheme: doc-versioned
+  current: v1.0
+  docs: https://domains.opensrs.guide
+  note: >-
+    The developer guide is published under a v1.0 label; the underlying
+    XML/OPS wire protocol is stable and not path-versioned.
+deprecation:
+  policy_observed: true
+  evidence: >-
+    OpenSRS marks superseded commands as deprecated in the guide rather than
+    removing them (e.g. the premium-domain "renew (domain)" command is published
+    at docs/renew-domain_deprecated with a deprecation label), preserving
+    backward compatibility for resellers.
+  deprecated_operations:
+    - id: renew (premium domain)
+      docs: https://domains.opensrs.guide/docs/renew-domain_deprecated.md
+  sunset_header: false
+status_page: https://status.opensrs.com
+support: https://support.opensrs.com/support/home

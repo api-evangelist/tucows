@@ -1,0 +1,204 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide/docs/codes.md
+api: OpenSRS Domains and TLS/SSL API
+format: opensrs-response-code
+notes: >-
+  The OpenSRS API is an XML-over-HTTPS protocol (not REST). Every response
+  carries a numeric `response_code` and a human-readable `response_text` in the
+  XML body; the HTTP status is 200 for a well-formed protocol response. These
+  are the documented protocol response codes (2xx success, 3xx flow/rate, 4xx
+  client/auth/validation, 5xx registry-state, 7xx registry-communication).
+envelope:
+  transport: XML body (OPS envelope)
+  fields:
+    - response_code   # numeric protocol code
+    - response_text   # human-readable explanation
+    - is_success      # 1 on success
+problems:
+  # --- success / informational (2xx) ---
+  - code: 200
+    class: success
+    title: Command Successful
+    detail: >-
+      Generic success. Also returned for successful authentication, connection
+      close, registration, modification and nameserver operations, and queries.
+  - code: 210
+    class: success
+    title: Domain available
+    detail: The looked-up domain is available for registration.
+  - code: 211
+    class: success
+    title: Domain taken
+    detail: The looked-up domain is already registered.
+  - code: 221
+    class: success
+    title: Domain taken (waiting registration exists)
+    detail: A waiting registration exists in OpenSRS. Used for asynchronous registries only.
+  - code: 250
+    class: success
+    title: Action submitted to asynchronous registry
+    detail: Action submitted successfully for processing to an asynchronous registry.
+  # --- flow / rate (3xx) ---
+  - code: 300
+    class: deferred
+    title: Command rate exceeded / GDPR pending
+    detail: >-
+      Exceeded max command rate; request deferred (for async). Or registration
+      is pending the contact agreeing to share information per GDPR.
+    remediation: Reduce request rate and retry, or await contact GDPR consent.
+  - code: 310
+    class: rate-limit
+    title: Exceeded max simultaneous connections
+    remediation: Reduce concurrent connections and retry.
+  - code: 350
+    class: reauthenticate
+    title: Commands-per-connection limit exceeded
+    detail: >-
+      A maximum of 100 commands can be sent through one connection/session.
+      After 100 commands the connection is closed and a new connection must be
+      opened.
+    remediation: Open a new connection and re-authenticate to continue.
+  # --- server / client / auth / validation (4xx) ---
+  - code: 400
+    class: server-error
+    title: Internal server error / invalid command
+    detail: >-
+      Internal server error, invalid command, access denied (invalid IP),
+      invalid encryption method, nameserver hostname change failure, or a
+      registration that must be retried.
+  - code: 404
+    class: server-error
+    title: Internal Server Error
+  - code: 405
+    class: registry-error
+    title: Registry error (nameserver operation failed)
+    detail: Nameserver not updated / add / remove / create / delete failed at the registry.
+  - code: 410
+    class: auth
+    title: Reseller authentication error
+    remediation: Verify reseller username and API key / signature.
+  - code: 415
+    class: auth
+    title: Registrant (end-user) authentication error
+    detail: Invalid password supplied for the registrant.
+  - code: 420
+    class: validation
+    title: Failed to create new registrant contact
+    detail: Parameter value range error, e.g. invalid telephone number format.
+  - code: 430
+    class: client-error
+    title: Invalid command
+  - code: 435
+    class: permission
+    title: Permission denied
+    detail: >-
+      Subuser permission denied, modify permission denied, cannot remove domain
+      owner, not owner, or nameserver failed validation at the registry.
+  - code: 436
+    class: server-error
+    title: Unknown registry response
+    detail: >-
+      The Registry Manager does not know how to handle the response code
+      returned by the Registry Agent; usually indicates the RM needs updating.
+  - code: 437
+    class: conflict
+    title: Concurrent request on domain
+    detail: Another request is already waiting on this domain (asynchronous registries).
+  - code: 440
+    class: quota
+    title: Registration failed - over quota / insufficient funds
+    remediation: Check for sufficient funds in the reseller account.
+  - code: 445
+    class: quota
+    title: Nameserver quota exceeded
+  - code: 447
+    class: quota
+    title: Sub-user limit exceeded
+  - code: 460
+    class: validation
+    title: Missing required field
+    detail: >-
+      No domain supplied, modify type not specified, username/password not
+      provided, missing fqdn/ip, info type not specified, reg_username/reg_password
+      not provided.
+  - code: 465
+    class: validation
+    title: Invalid data
+    detail: >-
+      Registration failed on invalid data, unknown modify type, invalid domain /
+      nameserver / username / registrant syntax, password length violations,
+      duplicate nameserver/sortorder, invalid IP, invalid registration type.
+  - code: 470
+    class: validation
+    title: Invalid contact format
+    detail: Invalid owner contact format; contact type not supported by TLD; contact cannot be updated with other types.
+  - code: 480
+    class: not-found
+    title: Not owned / not found
+    detail: >-
+      Domain not owned by user, renewals not supported for TLD, subuser / user
+      profile not found, or nameserver could not be located in the registry.
+  - code: 485
+    class: conflict
+    title: Already exists / already mapped
+    detail: Domain taken, nameserver already mapped to domain, nameserver already in registry, or in use.
+  - code: 486
+    class: conflict
+    title: Entity in processing state
+    detail: >-
+      Entity already exists in a processing state (usually a domain
+      registration). Retrying in a few seconds to a minute usually resolves it.
+    remediation: Retry after a short delay.
+  - code: 487
+    class: client-error
+    title: Domain not transferable
+  # --- registry-state (5xx) ---
+  - code: 541
+    class: registry-state
+    title: Expiration year mismatch
+    detail: Domain's current expiration year in the registry does not match the year provided by the user.
+  - code: 552
+    class: registry-state
+    title: Domain less than 60 days old / not transferable
+    detail: >-
+      Transfer blocked: domain not yet 60 days old, locked by existing registrar
+      for nonpayment or at end-user request, in dispute, or deleted.
+  - code: 555
+    class: registry-state
+    title: Domain already renewed
+    detail: Current expiration year already matches the year provided by the user.
+  - code: 557
+    class: registry-state
+    title: Nameserver locked
+    detail: >-
+      Attempt to modify or delete a nameserver hosting a TLD in the root zone;
+      such changes require registry-operator / IANA coordination.
+  - code: 599
+    class: validation
+    title: Failed to create contact for this TLD
+    detail: Parameter value range error, e.g. invalid telephone number format.
+  # --- registry communication (7xx) ---
+  - code: 701
+    class: registry-comms
+    title: TLD not serviced
+    detail: Could not extract a TLD, or TLD not serviced by OpenSRS.
+  - code: 702
+    class: registry-comms
+    title: Registry communication error (catch-all)
+    detail: 700 series indicates a communication error with the registry/vendor; 702 is a catch-all.
+  - code: 703
+    class: registry-comms
+    title: Could not send command
+  - code: 704
+    class: registry-comms
+    title: Empty message on socket
+    detail: Read an empty message on the socket.
+  - code: 705
+    class: registry-comms
+    title: Timed out - resubmit
+    detail: Client timed out waiting for the Registry Agent to respond.
+    remediation: Resubmit the request.
+  - code: 720
+    class: registry-comms
+    title: Supplier unavailable

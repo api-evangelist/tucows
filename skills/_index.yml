@@ -1,0 +1,21 @@
+generated: '2026-07-21'
+method: generated
+source: https://domains.opensrs.guide/llms.txt
+api: OpenSRS Domains and TLS/SSL API
+note: >-
+  Packaged agent operating instructions for marquee OpenSRS flows. Grounded in
+  the documented OpenSRS command names (the protocol's operationIds). OpenSRS is
+  an XML-over-HTTPS protocol; every step names a real command from the API guide.
+skills:
+  - file: tucows-register-a-domain.md
+    name: Register a domain with OpenSRS
+    api: OpenSRS Domains and TLS/SSL API
+    operations: [lookup (domain), get_price, sw_register (domain), get (domain)]
+  - file: tucows-order-ssl-certificate.md
+    name: Order an SSL/TLS certificate
+    api: OpenSRS Domains and TLS/SSL API
+    operations: [sw_register (trust_service), get_order_info, get_cert]
+  - file: tucows-renew-and-manage-domains.md
+    name: Find expiring domains and renew them
+    api: OpenSRS Domains and TLS/SSL API
+    operations: [get_domains_by_expiredate, get (domain), renew (domain), modify (domain)]

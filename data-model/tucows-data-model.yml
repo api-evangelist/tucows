@@ -1,0 +1,57 @@
+generated: '2026-07-21'
+method: derived
+source: https://domains.opensrs.guide/llms.txt
+api: OpenSRS Domains and TLS/SSL API
+note: >-
+  Derived from the documented OpenSRS command set and object references. OpenSRS
+  is an XML/OPS protocol with no OpenAPI, so entities and relationships are
+  inferred from the commands (get/modify/register/transfer) and their objects.
+entities:
+  - name: reseller
+    description: The API account (identified by reseller_username) that owns profiles, orders and balance.
+    relationships:
+      - {type: has_many, target: user_profile, via: reseller_username}
+      - {type: has_one, target: balance, via: reseller_username}
+      - {type: has_many, target: order, via: reseller_username}
+      - {type: has_many, target: subuser, via: reseller_username}
+  - name: user_profile
+    description: An end-user/registrant profile under a reseller that owns domains.
+    relationships:
+      - {type: has_many, target: domain, via: owner}
+  - name: domain
+    description: A registered or managed domain name.
+    relationships:
+      - {type: has_many, target: contact, via: contact_set}
+      - {type: has_many, target: nameserver, via: nameserver_list}
+      - {type: has_one, target: dns_zone, via: fqdn}
+      - {type: has_many, target: note, via: domain}
+      - {type: belongs_to, target: order, via: order_id}
+      - {type: has_one, target: registrant_verification, via: domain}
+  - name: contact
+    description: Registrant/admin/billing/tech contact set attached to a domain.
+    types: [owner, admin, billing, tech]
+  - name: nameserver
+    description: A DNS nameserver mapped to a domain.
+    relationships:
+      - {type: belongs_to, target: domain, via: fqdn}
+  - name: dns_zone
+    description: The DNS zone and records for a domain when OpenSRS DNS is enabled.
+    relationships:
+      - {type: belongs_to, target: domain, via: fqdn}
+      - {type: has_many, target: dns_record, via: zone}
+  - name: order
+    description: A billable transaction (registration, transfer, renewal, SSL order).
+    relationships:
+      - {type: has_one, target: domain, via: domain}
+  - name: trust_service
+    description: An SSL/TLS certificate order and issued certificate.
+    relationships:
+      - {type: belongs_to, target: order, via: order_id}
+  - name: subuser
+    description: A sub-user under a domain profile with scoped permissions.
+    relationships:
+      - {type: belongs_to, target: domain, via: domain}
+  - name: registrant_verification
+    description: The registrant contact-verification state for a domain (event-tracked).
+    relationships:
+      - {type: belongs_to, target: domain, via: domain}

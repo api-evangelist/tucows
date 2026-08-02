@@ -1,0 +1,27 @@
+# API OpenSRS Documentation
+
+> Documentation for API OpenSRS
+
+## Guides
+- [OpenSRS API Quick-Start Guide](https://domains.opensrs.guide/docs/quickstart.md)
+- [Protocol Message Structure](https://domains.opensrs.guide/docs/protocol-message-structure.md)
+- [Response Codes](https://domains.opensrs.guide/docs/codes.md)
+- [Renew (premium domain)](https://domains.opensrs.guide/docs/renew-domain_deprecated.md): Renews a domain and allows you to set the auto-renewal flag on a domain.
+- [TLD Data](https://domains.opensrs.guide/docs/tld.md)
+- [get (domain)](https://domains.opensrs.guide/docs/get-domain.md): Queries various types of data regarding the user's domain. The list type queries the list of domains associated with the user's profile. The **list** type can also be used to return a **list** of domains that expire within a specified range. The nameservers type returns the nameservers currently acting as DNS servers for the domain.
+- [get_notes](https://domains.opensrs.guide/docs/get_notes.md): Retrieves the domain notes that detail the history of the domain.
+- [get_price](https://domains.opensrs.guide/docs/get_price.md): Queries the price of a domain, and can be used to determine the cost of a billable transaction for any TLD. A returned price for a given domain does not guarantee the availability of the domain, but indicates that the requested action is supported by the system and calculates the cost to register the domain (if available).
+- [get_registrant_verification_status](https://domains.opensrs.guide/docs/get_registrant_verification_status.md): When a domain is registered or transferred, or when the registrant contact information is changed, the registrant must reply to an email requesting them to confirm that the submitted contact information is correct. This command returns the current state of the verification request.
+- [lookup (domain)](https://domains.opensrs.guide/docs/lookup-domain.md): Determines the availability of a specified domain name.
+- [name_suggest](https://domains.opensrs.guide/docs/name_suggest.md): Checks whether a specified name, word, or phrase is available for registration in gTLDs and ccTLDs, suggests other similar domain names for .COM, .NET, .ORG, .INFO, .BIZ, .US, and .MOBI domains, and checks whether they are available. Reseller must be enabled for the specified TLDs. Can also be used to search for domains owned by external domain suppliers.
+- [sw_register (trust_service)](https://domains.opensrs.guide/docs/sw_register-trust_service.md): Initiates a SSL certificate order.  **Please note your handle parameter:** "save"- will keep the order pending for later approval by the RSP, whereas "process" will proceed and complete the order.
+- [Overview](https://domains.opensrs.guide/docs/provisioning-commands-overview.md)
+- [sw_register (domain)](https://domains.opensrs.guide/docs/sw_register-domain-or-trust_service-.md): Initiates domain registration or domain transfer.  **Please note your handle parameter:** "save"- will keep the order pending for later approval by the RSP, whereas "process" will proceed and complete the order.
+- [modify (domain)](https://domains.opensrs.guide/docs/modify-domain.md): Changes information associated with a domain, such as contact info. The action request message is different depending on the type of modification being made, and is shown separately for each type.  This command also allows you to set an **auto-renew** flag for the domain from which you logged in. If you are using the **affected_domains** option, you can set the renewal action flags for all domains in the user's profile.
+- [Overview](https://domains.opensrs.guide/docs/transfer-commands-overview.md)
+- [trade_domain](https://domains.opensrs.guide/docs/trade_domain.md): Transfers ownership of a domain name from one registrant to another. This command may be used for the following domains: .AU, .CL, .COM.AR, .DK, FI, .FR, .HK, .HU, .IL, .MY, .NO, .NU, .PM, .RE, .RO, .RU, .SE, .SG, .TF, .WF, .YT, and possibly additional ones.
+- [Overview](https://domains.opensrs.guide/docs/dns-zone-commands-overview.md)
+- [create_dns_zone](https://domains.opensrs.guide/docs/create_dns_zone.md): Enables the DNS service for a domain. If you have created a DNS template, you can specify the template in the command to assign initial DNS records. The template is then associated with the domain, so if you later issue the reset_dns_zone command, the records are set back to what is defined in the template.  If you specify ***blank*** instead of a DNS template when you issue this command, you can submit the values for the DNS records in this command or you can use the set_dns_zone command to define the DNS records.  For information on creating a DNS zone template, see “Managing DNS Zone Information” in the *Reseller’s Guide to Domain Name Registration and Management*.
+- [set_dns_zone](https://domains.opensrs.guide/docs/set_dns_zone-.md): Set the records for a domain's DNS zone.
+- [modify (subuser)](https://domains.opensrs.guide/docs/modify-subuser.md): Modifies a domain's sub-user data.
+- [Domain Event: registrant_verification_status_change](https://domains.opensrs.guide/docs/registrant_verification_status_change-domain.md): This event notification is generated when there is a change to the registrant verification status for a domain.  This provides an update on the state of a registrant's verification.

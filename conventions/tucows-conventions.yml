@@ -1,0 +1,58 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide/docs/quickstart
+docs:
+  - https://domains.opensrs.guide/docs/quickstart
+  - https://domains.opensrs.guide/docs/protocol-message-structure
+  - https://domains.opensrs.guide/docs/codes
+api: OpenSRS Domains and TLS/SSL API
+transport:
+  style: XML-over-HTTPS-POST (proprietary OPS protocol, not REST)
+  endpoint_live: https://rr-n1-tor.opensrs.net:55443
+  endpoint_test: https://horizon.opensrs.net:55443
+  content_type: text/xml
+  message_structure: >-
+    An OPS XML envelope with a <header> and a <body>; the body carries a
+    data_block of key/value pairs, dt_assoc (associative) and dt_array
+    structures. Each request names an `action` (e.g. lookup, sw_register) and
+    an `object` (e.g. domain, trust_service).
+authentication:
+  style: request-signing
+  headers: [X-Username, X-Signature]
+  signature: double-MD5 of the XML body with the reseller API key
+  see: authentication/tucows-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    OpenSRS does not expose an Idempotency-Key header. For asynchronous
+    registries it instead guards against duplicate work with server-side state:
+    a concurrent request on the same domain returns code 437, an entity already
+    in a processing state returns 486 (retry after a short delay), and a
+    duplicate renewal returns 555. Callers should treat these codes as
+    "already-in-flight / already-done" rather than retrying blindly.
+pagination:
+  style: date-range / bounded queries
+  note: >-
+    List operations are bounded rather than cursor-paginated. `get (domain)`
+    with type=list accepts a page/limit and an expiry date range;
+    `get_domains_by_expiredate` returns domains expiring within an explicit
+    start/end date window.
+rate_limiting:
+  signals:
+    - code 300 (Exceeded max command rate; request deferred)
+    - code 310 (Exceeded max simultaneous connections)
+    - code 350 (max 100 commands per connection, then re-authenticate)
+  connection_lifetime: >-
+    A connection stays open no more than 60 seconds; authentication plus the
+    request must complete within that window or the connection is closed.
+  note: No numeric X-RateLimit headers are documented; limits surface as response codes.
+error_envelope:
+  style: response_code + response_text in the XML body
+  http_status: 200 for well-formed protocol responses
+  see: errors/tucows-problem-types.yml
+versioning:
+  scheme: guide-versioned (documentation labelled v1.0); the wire protocol is stable/unversioned
+events:
+  supported: true
+  style: domain event notifications (e.g. registrant_verification_status_change)
+  see: asyncapi/tucows-opensrs-domains-events.yml

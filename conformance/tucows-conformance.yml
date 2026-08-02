@@ -1,0 +1,40 @@
+generated: '2026-07-21'
+method: derived
+source: https://domains.opensrs.guide
+api: OpenSRS Domains and TLS/SSL API
+note: >-
+  OpenSRS predates and does not adopt the common REST/HTTP API standards. It is
+  a proprietary XML-over-HTTPS reseller protocol with request-signing auth. This
+  records conformance honestly; most cross-cutting web-API standards do not
+  apply. Domain-industry standards (RRP/EPP-style registry semantics) are
+  reflected in the command model.
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: Auth is X-Username + double-MD5 X-Signature, not OAuth2.
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use a proprietary numeric response_code/response_text in the XML body, not application/problem+json.
+  - id: json-api
+    conforms: false
+    evidence: Payloads are OPS XML, not JSON:API.
+  - id: rest
+    conforms: false
+    evidence: Single HTTPS POST endpoint with action/object verbs in the body, not resource-oriented REST.
+  - id: openapi
+    conforms: false
+    evidence: No OpenAPI description published; the protocol is XML/OPS.
+  - id: pagination
+    conforms: partial
+    evidence: List queries are bounded by page/limit and expiry date ranges rather than cursor pagination.
+  - id: idempotency
+    conforms: partial
+    evidence: No Idempotency-Key; concurrency/duplication guarded server-side via codes 437/486/555.
+  - id: tls
+    conforms: true
+    evidence: All API traffic is HTTPS (TLS) on port 55443.
+  - id: registry-rrp-epp-semantics
+    conforms: true
+    evidence: Command set models registrar/registry operations (register, transfer, renew, nameservers, DNS zones, registrant verification).

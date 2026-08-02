@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide/llms.txt
+spec_type: Webhooks
+api: OpenSRS Domains and TLS/SSL API
+description: >-
+  OpenSRS emits domain event notifications that resellers consume to stay in
+  sync with registry-side state changes. Events are documented in the API guide
+  as "Domain Event" notification objects. This captures the documented event
+  surface; it is an event/notification catalog, not a full AsyncAPI channel
+  document (OpenSRS does not publish an AsyncAPI spec).
+delivery:
+  style: event notification
+  note: >-
+    Notifications are delivered as OPS XML event objects describing a state
+    change for a domain; resellers process them to update local records.
+events:
+  - name: registrant_verification_status_change
+    object: domain
+    docs: https://domains.opensrs.guide/docs/registrant_verification_status_change-domain.md
+    description: >-
+      Generated when a domain's registrant verification status changes (the
+      registrant confirming or failing to confirm their contact information
+      after a registration, transfer, or contact update). Provides an update on
+      the state of the registrant's verification request.

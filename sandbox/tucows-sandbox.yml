@@ -1,0 +1,27 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide/docs/quickstart
+api: OpenSRS Domains and TLS/SSL API
+summary: >-
+  OpenSRS provides a dedicated test/horizon environment that mirrors the live
+  reseller API. Test and live are separated by endpoint host (not by key
+  prefix): the same request structure is sent to the horizon host with test
+  credentials. Order/registration actions in the test environment do not
+  provision real domains or bill the reseller account.
+environments:
+  - name: live
+    host: https://rr-n1-tor.opensrs.net:55443
+    description: Production reseller API. Real registrations, real billing.
+  - name: test
+    host: https://horizon.opensrs.net:55443
+    description: >-
+      Test/horizon environment. Requires a separate test reseller account and
+      test API key issued in the test Reseller Control Panel; used to exercise
+      registration, transfer, SSL and DNS flows without live provisioning.
+credentials:
+  note: >-
+    Test credentials are per-reseller (a test reseller_username + test api_key
+    from the horizon control panel). OpenSRS does not publish shared/global test
+    credentials, so none are captured here.
+ip_allowlisting:
+  note: The calling server IP must be whitelisted in the test control panel, same as live.

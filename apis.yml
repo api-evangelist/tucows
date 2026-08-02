@@ -1,8 +1,13 @@
 aid: tucows
 name: Tucows
-description: 'Tucows is a company surfaced as a portfolio company of union-square-ventures and added to
-  the API Evangelist network as a stub for enrichment. Sector: infrastructure. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Tucows is one of the world's largest internet-services and domain companies. Its OpenSRS division runs
+  a wholesale reseller platform for domain-name registration, DNS, TLS/SSL certificates and hosted email,
+  exposed through the OpenSRS API (an XML-over-HTTPS reseller protocol) and the OpenSRS Mail API (OMA).
+  Tucows also operates Wavelo, a telecom BSS/OSS billing, provisioning and subscriber-management platform
+  for communication service providers, and the Ting Internet fiber business. This profile captures the
+  public OpenSRS developer surface — the domains/SSL API, the email provisioning API, authentication,
+  error codes, sandbox, events and lifecycle. Tucows is a Union Square Ventures portfolio company.
 url: https://raw.githubusercontent.com/api-evangelist/tucows/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +15,121 @@ x-backed-by:
 - union-square-ventures
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://files.readme.io/fd0f1b4-small-OpenSRS_knowledgebase_1.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
 - Infrastructure
-apis: []
+- Domains
+- DNS
+- SSL
+- Email
+- Registrar
+- Telecom
+apis:
+- name: OpenSRS Domains and TLS/SSL API
+  description: >-
+    Wholesale reseller API for domain-name lookup, registration, transfer, renewal, DNS-zone management
+    and TLS/SSL certificate ordering. An XML-over-HTTPS POST protocol authenticated with a reseller
+    username and a double-MD5 request signature.
+  humanURL: https://domains.opensrs.guide
+  baseURL: https://rr-n1-tor.opensrs.net:55443
+  tags:
+  - Domains
+  - DNS
+  - SSL
+  - Registrar
+  properties:
+  - type: Documentation
+    url: https://domains.opensrs.guide
+  - type: GettingStarted
+    url: https://domains.opensrs.guide/docs/quickstart
+  - type: LLMsTxt
+    url: llms/tucows-llms.txt
+- name: OpenSRS Email API (OMA)
+  description: >-
+    The OpenSRS Mail API is the provisioning interface for the OpenSRS hosted email system — create,
+    modify and delete mailboxes, aliases, domains and other aspects of the service. A stateless web
+    service where each interaction is a single HTTP request/response.
+  humanURL: https://email.opensrs.guide
+  baseURL: https://admin.hostedemail.com/api
+  tags:
+  - Email
+  properties:
+  - type: Documentation
+    url: https://email.opensrs.guide
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1
 common:
 - type: Website
   url: https://tucows.com
+- type: DeveloperPortal
+  url: https://opensrs.com
+- type: Documentation
+  url: https://domains.opensrs.guide
+- type: APIReference
+  url: https://domains.opensrs.guide/docs/quickstart
+- type: GettingStarted
+  url: https://domains.opensrs.guide/docs/quickstart
+- type: Support
+  url: https://support.opensrs.com/support/home
+- type: GitHubOrganization
+  url: https://github.com/tucows
+- type: StatusPage
+  url: https://status.opensrs.com
+- type: Pricing
+  url: https://opensrs.com/domains/pricing/
+- type: Login
+  url: https://manage.opensrs.com
+- type: PrivacyPolicy
+  url: https://opensrs.com/privacy-policy/
+- type: TermsOfService
+  url: https://opensrs.com/payment-terms/
+- type: LLMsTxt
+  url: llms/tucows-llms.txt
+- type: Authentication
+  url: authentication/tucows-authentication.yml
+- type: ErrorCatalog
+  url: errors/tucows-problem-types.yml
+- type: Conventions
+  url: conventions/tucows-conventions.yml
+- type: Lifecycle
+  url: lifecycle/tucows-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/tucows-lifecycle.yml
+- type: Sandbox
+  url: sandbox/tucows-sandbox.yml
+- type: MCPServer
+  url: mcp/tucows-mcp.yml
+- type: Webhooks
+  url: asyncapi/tucows-opensrs-domains-events.yml
+- type: Conformance
+  url: conformance/tucows-conformance.yml
+- type: DataModel
+  url: data-model/tucows-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/tucows-domain-security.yml

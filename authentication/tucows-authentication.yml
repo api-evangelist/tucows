@@ -1,0 +1,48 @@
+generated: '2026-07-21'
+method: searched
+source: https://domains.opensrs.guide/docs/quickstart
+docs: https://domains.opensrs.guide/docs/quickstart
+api: OpenSRS Domains and TLS/SSL API
+summary:
+  types: [apiKey, signature]
+  api_key_in: [header]
+  scheme: reseller-username-plus-md5-signature
+  oauth2_flows: []
+description: >-
+  OpenSRS uses an HTTPS POST protocol with request signing rather than OAuth.
+  Each request carries two HTTP headers: `X-Username` (the reseller username)
+  and `X-Signature` (a signature computed over the XML request body and the
+  reseller API key). There are no OAuth flows and no bearer tokens; the API key
+  is a long-lived secret issued in the Reseller Control Panel.
+credentials:
+  reseller_username: The reseller account username.
+  api_key:
+    where: Reseller Control Panel > Account Settings > (gear icon) > API settings tab
+    console: https://manage.opensrs.com
+    note: Long-lived secret; also gate access by whitelisting your server IP in the control panel.
+schemes:
+  - name: X-Username
+    type: apiKey
+    in: header
+    parameter: X-Username
+    description: Reseller username identifying the calling account.
+  - name: X-Signature
+    type: signature
+    in: header
+    parameter: X-Signature
+    algorithm: md5
+    computation: >-
+      signature = md5( md5( xml_body + api_key ) + api_key )
+      (double MD5: first md5 of the XML body concatenated with the API key,
+      then md5 of that hex digest concatenated with the API key again).
+    description: Per-request signature binding the XML body to the reseller API key.
+ip_allowlisting:
+  supported: true
+  note: >-
+    API access must be enabled and the calling server IP address whitelisted in
+    the Reseller Control Panel; requests from non-whitelisted IPs return
+    "Access denied: invalid IP address" (response code 400).
+transport:
+  protocol: HTTPS POST
+  body: XML (OPS envelope)
+  content_type: text/xml
