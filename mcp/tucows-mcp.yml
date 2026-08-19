@@ -3,58 +3,62 @@ method: derived
 status: candidate
 source: https://domains.opensrs.guide/llms.txt
 api: OpenSRS Domains and TLS/SSL API
-note: >-
-  OpenSRS does not publish an official hosted MCP server. This is a candidate
-  tool surface derived one-to-one from the documented OpenSRS API commands, to
-  scaffold an MCP wrapper over the XML-over-HTTPS protocol. Not an official
-  OpenSRS product.
+note: OpenSRS does not publish an official hosted MCP server. This is a candidate tool surface derived
+  one-to-one from the documented OpenSRS API commands, to scaffold an MCP wrapper over the XML-over-HTTPS
+  protocol. Not an official OpenSRS product.
 server:
   name: opensrs-domains
   transport: stdio
   auth: X-Username + X-Signature (reseller username + double-MD5 signature)
 tools:
-  - name: lookup_domain
-    description: Determine the availability of a specified domain name.
-    source_operation: lookup (domain)
-  - name: name_suggest
-    description: Suggest and check availability of similar domain names across gTLDs/ccTLDs.
-    source_operation: name_suggest
-  - name: get_price
-    description: Query the price of a domain / cost of a billable transaction for a TLD.
-    source_operation: get_price
-  - name: get_domain
-    description: Query domain data (list, nameservers, contacts, status, expiry).
-    source_operation: get (domain)
-  - name: register_domain
-    description: Initiate a domain registration or transfer (sw_register with object=domain).
-    source_operation: sw_register (domain)
-  - name: modify_domain
-    description: Change domain information such as contacts, nameservers, or auto-renew flag.
-    source_operation: modify (domain)
-  - name: trade_domain
-    description: Transfer ownership (registrant change) of a domain to another registrant.
-    source_operation: trade_domain
-  - name: get_registrant_verification_status
-    description: Return the current registrant contact-verification state for a domain.
-    source_operation: get_registrant_verification_status
-  - name: get_domains_by_expiredate
-    description: List domains expiring within a start/end date range.
-    source_operation: get_domains_by_expiredate
-  - name: get_balance
-    description: Retrieve the reseller account balance.
-    source_operation: get_balance
-  - name: get_notes
-    description: Retrieve domain notes detailing the history of a domain.
-    source_operation: get_notes
-  - name: create_dns_zone
-    description: Enable DNS service for a domain, optionally from a DNS template.
-    source_operation: create_dns_zone
-  - name: set_dns_zone
-    description: Set the records for a domain's DNS zone.
-    source_operation: set_dns_zone
-  - name: order_ssl_certificate
-    description: Initiate an SSL/TLS certificate order (sw_register with object=trust_service).
-    source_operation: sw_register (trust_service)
-  - name: get_cert
-    description: Retrieve an issued SSL/TLS certificate.
-    source_operation: get_cert
+- name: lookup_domain
+  description: Determine the availability of a specified domain name.
+  source_operation: lookup (domain)
+- name: name_suggest
+  description: Suggest and check availability of similar domain names across gTLDs/ccTLDs.
+  source_operation: name_suggest
+- name: get_price
+  description: Query the price of a domain / cost of a billable transaction for a TLD.
+  source_operation: get_price
+- name: get_domain
+  description: Query domain data (list, nameservers, contacts, status, expiry).
+  source_operation: get (domain)
+- name: register_domain
+  description: Initiate a domain registration or transfer (sw_register with object=domain).
+  source_operation: sw_register (domain)
+- name: modify_domain
+  description: Change domain information such as contacts, nameservers, or auto-renew flag.
+  source_operation: modify (domain)
+- name: trade_domain
+  description: Transfer ownership (registrant change) of a domain to another registrant.
+  source_operation: trade_domain
+- name: get_registrant_verification_status
+  description: Return the current registrant contact-verification state for a domain.
+  source_operation: get_registrant_verification_status
+- name: get_domains_by_expiredate
+  description: List domains expiring within a start/end date range.
+  source_operation: get_domains_by_expiredate
+- name: get_balance
+  description: Retrieve the reseller account balance.
+  source_operation: get_balance
+- name: get_notes
+  description: Retrieve domain notes detailing the history of a domain.
+  source_operation: get_notes
+- name: create_dns_zone
+  description: Enable DNS service for a domain, optionally from a DNS template.
+  source_operation: create_dns_zone
+- name: set_dns_zone
+  description: Set the records for a domain's DNS zone.
+  source_operation: set_dns_zone
+- name: order_ssl_certificate
+  description: Initiate an SSL/TLS certificate order (sw_register with object=trust_service).
+  source_operation: sw_register (trust_service)
+- name: get_cert
+  description: Retrieve an issued SSL/TLS certificate.
+  source_operation: get_cert
+deployment:
+  mode: none
+  verified: derived
+  tools: 15
+  checked: '2026-08-12'
+  source: catalog MCP census
