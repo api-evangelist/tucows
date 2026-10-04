@@ -52,6 +52,15 @@ tags:
 - SSL
 - Email
 - Registrar
+- Telecommunications
+tags_raw:
+- Company
+- Infrastructure
+- Domains
+- DNS
+- SSL
+- Email
+- Registrar
 - Telecom
 apis:
 - name: OpenSRS Domains and TLS/SSL API
